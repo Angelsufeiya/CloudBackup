@@ -1,3 +1,9 @@
+productor_customer:productor_customer.cpp
+	g++ productor_customer.cpp -o productor_customer
+bowl:bowl.c
+	gcc bowl.c -o bowl
+ticket:ticket.c
+	gcc ticket.c -o ticket
 pthread:pthread.c
 	gcc pthread.c -o pthread
 signal:signal.c
