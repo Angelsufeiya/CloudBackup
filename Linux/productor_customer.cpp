@@ -68,6 +68,7 @@ void *thr_productor(void *arg){
 		queue->Push(i);
 		printf("productor push data:%d\n", i++);
 	}
+	return NULL;
 }
 
 void * thr_customer(void *arg){
@@ -89,14 +90,12 @@ int main(){
 	for(i = 0; i < 4; i++){
 		ret = pthread_create(&ptid[i], NULL, thr_productor, (void*)&queue);
 		if(ret != 0){
-			cout << "create productor thread error" << endl;
+			printf("create productor thread error\n");
 			return -1;
 		}
-	}
-	for(i = 0; i < 4; i++){
 		ret = pthread_create(&ctid[i], NULL, thr_customer, (void*)&queue);
 		if(ret != 0){
-			cout << "create customer thread error" << endl;
+			printf("create customer thread error\n");
 			return -1;
 		}
 	}
