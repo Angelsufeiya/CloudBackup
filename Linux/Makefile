@@ -1,6 +1,6 @@
 main:main.cpp threadpool.hpp
-	g++ main.cpp -o main
-customer_productor:customer_productor.cpp
+	g++ $^ -o $@ -lpthread
+customer_producter:customer_productor.cpp
 	g++ customer_productor.cpp -o customer_productor
 productor_customer:productor_customer.cpp
 	g++ productor_customer.cpp -o productor_customer
