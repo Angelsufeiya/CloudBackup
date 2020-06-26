@@ -1,4 +1,6 @@
-main:main.cpp threadpool.hpp
+udp_srv:udp_srv.c
+	gcc $^ -o $@ 
+threadpool:threadpool.cpp
 	g++ $^ -o $@ -lpthread
 customer_producter:customer_productor.cpp
 	g++ customer_productor.cpp -o customer_productor
