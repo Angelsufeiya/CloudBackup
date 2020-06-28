@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]){
 	// argc表示参数个数，通过argv向程序传递端口参数
 	if(argc != 3){
-		printf("./udp_srv ip port em: ./udp_srv 192.168.122.132 9000\n");
+		printf("./udp_srv ip port  em: ./udp_srv 192.168.122.132 3000\n");
 		return -1;
 	}
 	const char * ip_addr = argv[1];
@@ -27,8 +27,8 @@ int main(int argc, char *argv[]){
 	// struct in_addr{ uint32_t s_addr }
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
-	// htons - 将两个字节的主机字节序证书转换为网络字节序的整数
-	addr.sin_port = htons(port_addr);	// 注意千万不要使用htonl
+	// htons - 将两个字节的主机字节序整数转换为网络字节序的整数
+	addr.sin_port = htons(port_addr);	// 注意千万不要使用htonl(端口是2个字节大小)
 	// inet_addr 将一个点分十进制的字符串IP地址转换为网络字节序的整数IP地址
 	addr.sin_addr.s_addr = inet_addr(ip_addr);
 	socklen_t len = sizeof(struct sockaddr_in);	// 获取IPv4地址结构长度
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 		printf("serve say: ");
 		fflush(stdout);	// 用户输入数据，发送给客户端
 		scanf("%s", buf);
-		// 通过sockfd将buf中的数据发送到cliaddr客户端
+		// 通过sockfd将buf中的数据发送到cli_addr客户端
 		ret = sendto(sockfd, buf, strlen(buf), 0, (struct sockaddr*)&cli_addr, len);
 		if(ret < 0){
 			perror("sendto error");
