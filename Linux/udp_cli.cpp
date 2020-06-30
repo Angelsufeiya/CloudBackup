@@ -1,5 +1,6 @@
 // 这个demo封装一个udpsocket类，向外提供简单的接口实现套接字编程
 
+#include <iostream>
 #include <cstdio>
 #include <string>
 #include <unistd.h>	// close接口
@@ -63,7 +64,7 @@ public:
 		socklen_t len = sizeof(struct sockaddr_in);	// 指定地址长度以及获取实际地址长度
 		int ret;
 		char tmp[4096] = {0};	// 临时用于存放数据的缓冲区
-		ret = recvfrom(_sockfd, tmp, 4096, 0, (struct sockaddr*)&addr, &lend);
+		ret = recvfrom(_sockfd, tmp, 4096, 0, (struct sockaddr*)&addr, &len);
 		if(ret < 0){
 			perror("recvfrom error");
 			return -1;
@@ -95,7 +96,7 @@ private:
 
 // 客户端要给服务端发送数据，那么就需要知道服务端的地址信息
 // 因此通过程序运行参数传入服务端的地址信息
-int main(){
+int main(int argc, char *argv[]){
 	if(argc != 3){
 		printf("em: ./udp_cli 192.168.122.132 9000\n");
 		return -1;
@@ -104,7 +105,7 @@ int main(){
 	// argv[1] = 192.168.122.132
 	// argv[2] = 9000
 	std::string ip_addr = argv[1];	// 服务端地址信息
-	uint16_t port_addr = atoi(9000);
+	uint16_t port_addr = atoi(argv[2]);
 
 	UdpSocket sock;
 	CHECK_RET(sock.Socket());	// 创建套接字
@@ -117,7 +118,7 @@ int main(){
 		std::cin >> buf;	// 获取标准输入的数据
 		sock.Send(buf, ip_addr, port_addr);	// 向指定的主机进程发送buf数据
 		buf.clear();	// 清空buf缓冲区
-		sock.Recv(buf);	// 因为本身客户端就知道服务端的地址，因此不需要再获取了
+		sock.Recv(&buf);	// 因为本身客户端就知道服务端的地址，因此不需要再获取了
 		std::cout << "server say: " << buf << std::endl;
 	}
 	sock.Close();

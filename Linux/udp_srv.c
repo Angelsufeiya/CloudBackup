@@ -1,6 +1,7 @@
 // 编写一个udp服务端的C语言程序
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <netinet/in.h>	// sockaddr结构体/IPPROTO_UDP
@@ -33,7 +34,6 @@ int main(int argc, char *argv[]){
 	addr.sin_addr.s_addr = inet_addr(ip_addr);
 	socklen_t len = sizeof(struct sockaddr_in);	// 获取IPv4地址结构长度
 	int ret = bind(sockfd, (struct sockaddr*)&addr, len);
-	close(sockfd);	// 关闭套接字
 	if(ret < 0){
 		perror("bind error");
 		return -1;
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
 		printf("client say: %s\n", buf);
 
 		memset(buf, 0x00, 1024);	// 清空buf中的数据
-		printf("serve say: ");
+		printf("server say: ");
 		fflush(stdout);	// 用户输入数据，发送给客户端
 		scanf("%s", buf);
 		// 通过sockfd将buf中的数据发送到cli_addr客户端
