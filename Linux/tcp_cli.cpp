@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
 
 		buf.clear();
 		CHECK_RET(cli_sock.Recv(&buf));
-		printf("server say: %s\n", buf.c_str());
+		printf("server say:%s\n", buf.c_str());
 	}	
 	cli_sock.Close();
 	return 0;

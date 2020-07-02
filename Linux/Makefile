@@ -1,4 +1,6 @@
-all:tcp_cli process_srv
+all:tcp_cli thread_srv
+thread_srv:thread_srv.cpp
+	g++ $^ -o $@ -lpthread
 process_srv:process_srv.cpp
 	g++ $^ -o $@ 
 tcp_cli:tcp_cli.cpp
