@@ -1,4 +1,6 @@
-all:tcp_cli thread_srv
+all:tcp_cli http_srv
+http_srv:http_srv.cpp
+	g++ $^ -o $@ -lpthread
 thread_srv:thread_srv.cpp
 	g++ $^ -o $@ -lpthread
 process_srv:process_srv.cpp
@@ -7,7 +9,6 @@ tcp_cli:tcp_cli.cpp
 	g++ $^ -o $@ 
 tcp_srv:tcp_srv.cpp
 	g++ $^ -o $@
-
 
 all:udp_cli udp_srv
 udp_cli:udp_cli.cpp
