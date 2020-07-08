@@ -1,3 +1,6 @@
+select1:select1.c
+	gcc $^ -o $@
+
 all:tcp_cli http_srv
 http_srv:http_srv.cpp
 	g++ $^ -o $@ -lpthread
