@@ -10,15 +10,18 @@ int main(){
 	
 	// 1.定义指定时间的描述符集合
 	fd_set rfds;
-	FD_ZERO(&rfds);	// 初始化清空集合
-	FD_SET(0, &rfds);	// 将0号描述符添加到集合中
-	struct timeval tv;
-	tv.tv_sec = 3;
-	tv.tv_usec = 0;
 
 	while(1){
 		printf("开始监控\n");
 		// select(maxfd +1, 可读事件集合，可写事件集合，异常事件集合，超时时间)
+		// 开始监控，超时/有就绪则调用返回，返回的时候将集合中为就绪的描述符移除
+		// 超时：在tv指定时间内都一直没有描述符就绪
+		// 有就绪：有描述符就绪的指定的事件
+		struct timeval tv;	// 因为select会重置集合
+		tv.tv_sec = 3;
+		tv.tv_usec = 0;
+		FD_ZERO(&rfds);	// 初始化清空集合
+		FD_SET(0, &rfds);	// 将0号描述符添加到集合中
 		int ret = select(0+1, &rfds, NULL, NULL, &tv);
 		if(ret < 0){
 			perror("select error");
