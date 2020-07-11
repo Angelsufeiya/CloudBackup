@@ -1,5 +1,6 @@
 #include <iostream>
 #include "select.hpp"
+#include "epoll.hpp"
 
 int main(int argc, char *argv[]){
 	if(argc != 3){
@@ -14,11 +15,14 @@ int main(int argc, char *argv[]){
 	CHECK_RET(lst_sock.Bind(srv_ip, srv_port));
 	CHECK_RET(lst_sock.Listen());
 
-	Select s;
-	s.Add(lst_sock);
+	//Select s;
+	//s.Add(lst_sock);
+	Epoll e;
+	e.Add(lst_sock);
 	while(1){
 		std::vector<TcpSocket> list;
-		bool ret = s.Wait(&list);
+		//bool ret = s.Wait(&list);
+		bool ret = e.Wait(&list);
 		if(ret == false){
 			return -1;
 		}
@@ -30,12 +34,14 @@ int main(int argc, char *argv[]){
 				if(ret == false){
 				  	continue;
 				}
-				s.Add(new_sock);
+				//s.Add(new_sock);
+				e.Add(new_sock);
 			}
 			else{
 				std::string buf;
 				ret = sock.Recv(&buf);
 				if(ret == false){
+					e.Del(sock);
 					sock.Close();
 					continue;
 				}
@@ -45,6 +51,7 @@ int main(int argc, char *argv[]){
 				std::cin >> buf;
 				ret = sock.Send(buf);
 				if(ret == false){
+					e.Del(sock);
 					sock.Close();
 					continue;
 				}
