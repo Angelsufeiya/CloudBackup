@@ -150,11 +150,13 @@ namespace CloudBackup {
       if (!isExistFile(filepath)) {
         return false;
       }
+
       if (isCompressedFile(filepath)) {
         m_mutex.lock();
         m_map[filepath].m_fileStatus = NORMAL;
         m_mutex.unlock();
-      } else {
+      } 
+	  else {
         m_mutex.lock();
         m_map[filepath].m_fileStatus = COMPRESSED;
         m_mutex.unlock();
@@ -191,11 +193,11 @@ namespace CloudBackup {
       sort(fileList.begin(), fileList.end());
       for (; iter_file != iter_end; ++iter_file) {
         filepath = iter_file->path().string();
-        if (m_map.find(filepath) != m_map.end() 
-            && find(tmpList.begin(), tmpList.end(), filepath) == tmpList.end()) {
+        if (m_map.find(filepath) != m_map.end() && find(tmpList.begin(), tmpList.end(), filepath) == tmpList.end()) {
           tmpList.push_back(filepath);
-        } else if (filepath.rfind(".gz") == filepath.size() - 3) {
-          filepath.erase(filepath.end() - 3, filepath.end());
+        } 
+		else if (filepath.rfind(".gz") == filepath.size() - 3) {
+		  filepath.erase(filepath.end() - 3, filepath.end());
           if (m_map.find(filepath) != m_map.end() 
               && find(tmpList.begin(), tmpList.end(), filepath) == tmpList.end()) {
             tmpList.push_back(filepath);
@@ -274,7 +276,9 @@ namespace CloudBackup {
   };
 
   FileDataManager fdManager;
-  class FileManageModule	// 
+
+  // 文件管理模块
+  class FileManageModule
   {
     public:
       FileManageModule(FileDataManager &fdm = fdManager)

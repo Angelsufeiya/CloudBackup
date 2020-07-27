@@ -1,0 +1,19 @@
+[CloudClient]
+cliLog=./cli_log.dat
+cliDirPath=./cli_dirpath.dat
+srvIP=192.168.8.103
+srvPort=9000
+
+[CloudServer]
+srcLog=./srv_log.dat
+host=0.0.0.0
+port=9000
+
+# 连接mysql数据库的配置
+sHost=localhost
+sUser=cloudadmin
+sPasswd=123
+sDataBase=cloudbackup
+sCharSet=utf8mb4
+sPort=0
+sFlag=0
